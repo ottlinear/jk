@@ -1,9 +1,9 @@
 name: Auto Update Playlist and Cookie
 
 on:
+  workflow_dispatch:  # Manual trigger
   schedule:
-    - cron: '0 */4 * * *' # Runs every 4 hours
-  workflow_dispatch:
+    - cron: '0 * * * *'  # Runs every hour
 
 jobs:
   update-playlist:
@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -19,16 +19,21 @@ jobs:
           python-version: '3.x'
 
       - name: Install dependencies
-        run: pip install requests pytz
+        run: |
+          pip install requests pytz
 
       - name: Run fetch.py
-        run: python fetch.py
+        run: |
+          echo "🔄 STEP 1: Fetching remote playlist..."
+          python fetch.py
+          echo "✅ Script finished."
 
-      - name: Commit and Push changes
+      - name: Commit and push updates
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           git pull --rebase origin main
-          git add .
-          git commit -m "🔄 Auto update playlist and cookie" || echo "No changes to commit"
-          git push origin main
+          git add playlist.php fetch.json
+          git commit -m "🔄 Auto-update playlist.php and fetch.json (Python)" || echo "No changes to commit"
+          git push origin HEAD:main
