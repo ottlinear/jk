@@ -5,7 +5,7 @@
 #KODIPROP:inputstream.adaptive.license_type=clearkey
 #KODIPROP:inputstream.adaptive.license_key=5181d3e6698055578cedc5bfc86b3e56:3dca7917d8cf9bb7095dc72b48bdcd3c
 #EXTVLCOPT:http-user-agent=plaYtv/7.1.3 (Linux;Android 13) ygx/69.1 ExoPlayerLib/824.0
-#EXTHTTP:{"cookie":"__hdnea__=st=1753269841~exp=1753356241~acl=/*~hmac=54ef6831459cd476cedbf056dbb4d444db3c82f1dbc"}
+#EXTHTTP:{"cookie":"__hdnea__=st=1753269841~exp=1753356241~acl=/*~hmac=54ef6831459cd476cedbf056dbb4d444db3cfc3788b035cf8106a531e82f1dbc"}
 https://jiotvmblive.cdn.jio.com/bpk-tv/Disney_Channel_BTS/output/index.mpd?__hdnea__=st=1751714366~exp=1751800766~acl=/*~hmac=df8770d28136598e3dc9f2b79956436a0c1383319505104ae2ec7ea82167e823&xxx=%7Ccookie=__hdnea__=st=1753269841~exp=1753356241~acl=/*~hmac=54ef6831459cd476cedbf056dbb4d444db3cfc3788b035cf8106a531e82f1dbc
 
 #EXTINF:-1 tvg-id="1374" group-title="Jiostar" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Disney_Junior.png",Disney Junior
