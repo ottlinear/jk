@@ -1,33 +1,36 @@
-name: Update Playlist with Cookie
+name: Auto Update Playlist and Cookie
 
 on:
+  workflow_dispatch:     # Manual trigger available
   schedule:
-    - cron: '30 18 * * *'   # Runs daily at 00:00 IST
-  workflow_dispatch:
+    - cron: '30 18 * * *'  # Runs daily at 00:00:00 IST (18:30 UTC)
 
 jobs:
-  update-cookie:
+  update-playlist:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
 
-      - name: Install requests module
-        run: pip install requests
+    - name: Install Python dependencies
+      run: pip install requests pytz
 
-      - name: Run fetch.py
-        run: python fetch.py
+    - name: Run fetch.py to update playlist.php and fetch.json
+      run: python fetch.py
 
-      - name: Commit & push updates
-        run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
-          git add playlist.php fetch.json
-          git commit -m "🔄 Auto-update cookie and playlist (Python)" || echo "No changes"
-          git push
+    - name: Commit and push updates
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git add playlist.php fetch.json
+        git commit -m "🔄 Auto-update playlist.php and fetch.json (Python)" || echo "No changes to commit"
+        git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}
+        git push origin HEAD:main
