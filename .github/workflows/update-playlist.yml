@@ -2,7 +2,7 @@ name: Update Playlist with Cookie
 
 on:
   schedule:
-    - cron: '30 18 * * *'   # 00:00 IST (18:30 UTC)
+    - cron: '30 18 * * *'   # Runs daily at 00:00 IST
   workflow_dispatch:
 
 jobs:
@@ -10,21 +10,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          php-version: '8.1'
+          python-version: '3.11'
 
-      - name: Run fetch.php
-        run: php fetch.php
+      - name: Install requests module
+        run: pip install requests
+
+      - name: Run fetch.py
+        run: python fetch.py
 
       - name: Commit & push updates
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
           git add playlist.php fetch.json
-          git commit -m "🔄 Auto-update cookie and playlist" || echo "No changes"
+          git commit -m "🔄 Auto-update cookie and playlist (Python)" || echo "No changes"
           git push
